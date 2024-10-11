@@ -1,3 +1,12 @@
 [submodule "client-gateway"]
 	path = client-gateway
 	url = https://github.com/DAVIDS2405/Client-Gateway.git
+[submodule "products-ms"]
+	path = products-ms
+	url = https://github.com/DAVIDS2405/Product-MS.git
+[submodule "orders-ms"]
+	path = orders-ms
+	url = https://github.com/DAVIDS2405/Order-MS.git
+[submodule "order-ms"]
+	path = order-ms
+	url = https://github.com/DAVIDS2405/Order-MS.git
