@@ -42,11 +42,11 @@ services:
   orders-ms:
     depends_on:
       - orders-db
-    build: ./order-ms
+    build: ./orders-ms
     ports:
       - "3002:3002"
     volumes:
-      - ./order-ms/src:/usr/src/app/sr
+      - ./orders-ms/src:/usr/src/app/sr
     command: npm run start:dev
     env_file:
-      - ./order-ms/.env
+      - ./orders-ms/.env
