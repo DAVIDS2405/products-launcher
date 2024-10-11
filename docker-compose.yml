@@ -1,0 +1,52 @@
+services:
+  nats-server:
+    image: nats:latest
+    ports:
+      - "8222:8222"
+
+  orders-db:
+    container_name: orders_database
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - ./orders-ms/pgdata:/var/lib/postgresql/data/pgdata
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ordersdb
+      PGDATA: /var/lib/postgresql/data/pgdata
+    
+      
+  client-gateway:
+    build: ./client-gateway
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client-gateway/src:/usr/src/app/src
+    command: npm run start:dev
+    env_file:
+      - ./client-gateway/.env
+
+  products-ms:
+    build: ./products-ms
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./products-ms/src:/usr/src/app/src
+    command: npm run start:dev 
+    env_file:
+      - ./products-ms/.env
+
+  orders-ms:
+    depends_on:
+      - orders-db
+    build: ./orders-ms
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./orders-ms/src:/usr/src/app/sr
+    command: npm run start:dev
+    env_file:
+      - ./orders-ms/.env
