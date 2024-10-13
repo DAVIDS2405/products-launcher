@@ -23,18 +23,26 @@ services:
     build: ./client-gateway
     ports:
       - "3000:3000"
-    volumes:
-      - ./client-gateway/src:/usr/src/app/src
+    develop:
+      watch:
+        - action: sync
+          path: ./client-gateway/src
+          target: /usr/src/app/src
+          ignore:
+            - node_modules
     command: npm run start:dev
     env_file:
       - ./client-gateway/.env
 
   products-ms:
     build: ./products-ms
-    ports:
-      - "3001:3001"
-    volumes:
-      - ./products-ms/src:/usr/src/app/src
+    develop:
+      watch:
+        - action: sync
+          path: ./products-ms/src
+          target: /usr/src/app/src
+          ignore:
+            - node_modules
     command: npm run start:dev 
     env_file:
       - ./products-ms/.env
@@ -43,10 +51,39 @@ services:
     depends_on:
       - orders-db
     build: ./orders-ms
-    ports:
-      - "3002:3002"
-    volumes:
-      - ./orders-ms/src:/usr/src/app/sr
+    develop:
+      watch:
+        - action: sync
+          path: ./orders-ms/src
+          target: /usr/src/app/src
+          ignore:
+            - node_modules
     command: npm run start:dev
     env_file:
       - ./orders-ms/.env
+
+  payments-ms:
+    build: ./payments-ms
+    develop:
+      watch:
+        - action: sync
+          path: ./payments-ms/src
+          target: /usr/src/app/src
+          ignore:
+            - node_modules
+    command: npm run start:dev
+    env_file:
+      - ./payments-ms/.env
+
+  auth-ms:
+    build: ./auth-ms
+    develop:
+      watch:
+        - action: sync
+          path: ./auth-ms/src
+          target: /usr/src/app/src
+          ignore:
+            - node_modules
+    command: npm run start:dev
+    env_file:
+      - ./auth-ms/.env
