@@ -1,0 +1,47 @@
+services:
+  nats-server:
+    image: nats:latest
+
+  client-gateway:
+    build: 
+      context: ./client-gateway
+      dockerfile: dockerfile.prod
+
+    ports:
+      - 3000:3000
+
+    env_file:
+      - ./client-gateway/.env
+
+  products-ms:
+    build:
+      context: ./products-ms
+      dockerfile: dockerfile.prod
+    env_file:
+      - ./products-ms/.env
+
+  orders-ms:
+    build: 
+      context: ./orders-ms
+      dockerfile: dockerfile.prod
+      args:
+        - DATABASE_URL=${DATABASE_URL_ORDERS}
+    env_file:
+      - ./orders-ms/.env
+
+  payments-ms:
+    build: 
+      context: ./payments-ms
+      dockerfile: dockerfile.prod
+
+    ports:
+      - 3003:3003
+    env_file:
+      - ./payments-ms/.env
+
+  auth-ms:
+    build:  
+      context: ./auth-ms
+      dockerfile: dockerfile.prod
+    env_file:
+      - ./auth-ms/.env
